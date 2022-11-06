@@ -12,7 +12,6 @@ struct SearchView: View {
     let store: StoreOf<Search>
     
 
-    @EnvironmentObject var router: Router
 
     var body: some View {
         WithViewStore(store, observe: { $0 }) {

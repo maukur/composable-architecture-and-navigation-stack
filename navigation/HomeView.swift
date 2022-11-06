@@ -6,21 +6,44 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 struct HomeView: View {
     
-    @EnvironmentObject var router: Router
-
+    let store: StoreOf<Home>
+    
+    
     var body: some View {
-        Button("asd") {
-            router.tab = .search
-            router.serchPath.append("test")
+        WithViewStore(store, observe: { $0 }) { store in
+            Button("asd") {
+                store.send(.navigate)
+            }
         }
+        
     }
 }
 
-struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
+public struct Home: ReducerProtocol {
+    
+    @Dependency(\.router) var router
+    
+    
+    public struct State: Equatable  {
+        public var color: Color = .white
     }
+    
+    public enum Action: Equatable {
+        case navigate
+    }
+    
+    public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
+        switch action {
+        case .navigate:
+            router.tab = .search
+            router.serchPath.append("From home")
+        }
+        return .none
+    }
+    
+    
 }

@@ -9,7 +9,10 @@ struct ContentView: View {
         TabView(selection: $router.tab) {
             
             NavigationStack(path: $router.homePath) {
-                HomeView()
+                HomeView( store:
+                        .init(initialState: Home.State(),
+                              reducer: Home()
+                             ))
                     .environmentObject(router)
                     .navigationDestination(for: String.self) { path in
                         Text(path)
@@ -26,10 +29,10 @@ struct ContentView: View {
                                   reducer: Search()
                                  )
                 )
-                .environmentObject(router)
-                .navigationDestination(for: String.self) { person in
-                    Text(person)
-                }
+                    .environmentObject(router)
+                    .navigationDestination(for: String.self) { person in
+                        Text(person)
+                    }
             }
             .tabItem { Text("Serach") }
             .tag(Tabs.search)
