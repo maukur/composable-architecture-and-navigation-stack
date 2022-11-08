@@ -11,8 +11,8 @@ import ComposableArchitecture
 struct SearchView: View {
     let store: StoreOf<Search>
     
-
-
+    
+    
     var body: some View {
         WithViewStore(store, observe: { $0 }) {
             store in
@@ -35,38 +35,24 @@ struct SearchView: View {
 public struct Search: ReducerProtocol {
     
     @Dependency(\.router) var router
-
     
     public struct State: Equatable  {
         public var color: Color = .white
     }
     
     public enum Action: Equatable {
-           case navigate
-       }
+        case navigate
+    }
     
     public func reduce(into state: inout State, action: Action) -> EffectTask<Action> {
         switch action {
         case .navigate:
             router.tab = .home
-            router.homePath.append("From search")
+            router.homePath.append("From Search")
             router.homePath.append("From Second")
         }
-           return .none
-       }
-
-   
-}
-
-extension DependencyValues {
-  public var router: Router {
-    get { self[Router.self] }
-    set { self[Router.self] = newValue }
-  }
-
-    private enum RouterGeneratorKey: DependencyKey {
-        static let liveValue: @Sendable () -> Router =  {
-            Router.liveValue
-        }
-  }
+        return .none
+    }
+    
+    
 }
